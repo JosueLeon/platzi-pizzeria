@@ -3,12 +3,14 @@ package com.platzi.pizza.service;
 import com.platzi.pizza.persistence.entity.PizzaEntity;
 import com.platzi.pizza.persistence.repository.PizzaPagSortRepository;
 import com.platzi.pizza.persistence.repository.PizzaRepository;
+import com.platzi.pizza.service.dto.UpdatePizzaPriceDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -74,5 +76,10 @@ public class PizzaService {
         Sort sort = Sort.by(Sort.Direction.fromString(sortDirection), sortBy);
         Pageable pagesRequest = PageRequest.of(page,elements, sort);
         return this.pizzaPagSortRepository.findByAvailableTrue(pagesRequest);
+    }
+
+    @Transactional
+    public void updatePrice(UpdatePizzaPriceDto dto){
+        this.pizzaRepository.updatePizza(dto);
     }
 }
